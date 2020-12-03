@@ -22,7 +22,7 @@ class HumanPlayer {
 
   processGameOver(isWon, turns) {
     if (isWon) {
-      console.log(`You have won this time in this many ${turns} turns!`)
+      console.log(`You have won this time in this many ${turns}!`)
     } else {
       console.log(`You is a loser; Try again.`)
     }

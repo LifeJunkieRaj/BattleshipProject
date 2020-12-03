@@ -1,16 +1,39 @@
 class Board {
-  constructor() {
+  constructor(numRos, numCols, numShips) {
+    this.numRos = numRos
+    this.numCols = numCols
+    this.numShips = numShips
+    this.grid = populateGrid()
     // TODO: Set up constructor that sets the numRos, numCols, and numShips.
     // TODO: Set this.grid equal to the return value of the instance method
     // populateGrid().
   }
 
   populateGrid() {
+    let outerArr = [];
+    for (let i = 0; i < this.numRos; i++) {
+      let rowArr = [];
+       for (let j = 0; j < this.numCols; j++) {
+         rowArr.push(null)
+       }
+       outerArr.push(rowArr)
+    }
+    let k = 0;
+    while (k < this.numShips) {
+      let shipRow = Math.floor(Math.random() * this.numRos)
+      let shipCol = Math.floor(Math.random() * this.numCols)
+      if (outerArr[shipRow][shipCol] === null) {
+        outerArr[shipRow][shipCol] = "S"
+        k++
+      }
+    }
+    return outerArr;
     // TODO: Using the instance variables numRows, numCols, and numShips, return
     // a 2D array representing the state of the board.
   }
 
   display() {
+    console.table(populateGrid)
     // TODO: Print the game board with marks on any spaces that have been fired
     // upon. Be sure not to display the unhit ships to the user! Hint: you might
     // be able to use console.table()
@@ -30,6 +53,7 @@ class Board {
   }
 
   attack() {
+
     // TODO: Take in an attack position in the form of an array, [row, col], as
     // a parameter. Update this.grid depending on if the position is an empty
     // space or a damaged ship.
