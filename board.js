@@ -3,7 +3,7 @@ class Board {
     this.numRos = numRos
     this.numCols = numCols
     this.numShips = numShips
-    this.grid = populateGrid()
+    this.grid = this.populateGrid()
     // TODO: Set up constructor that sets the numRos, numCols, and numShips.
     // TODO: Set this.grid equal to the return value of the instance method
     // populateGrid().
@@ -37,7 +37,7 @@ class Board {
 
     for (let i = 0; i < this.numRos; i++) {
       for (let j = 0; j < this.numCols; j++) {
-        if (anotherGrid[i][j] === "null" || anotherGrid[i][j] === "S") {
+        if (anotherGrid[i][j] === null || anotherGrid[i][j] === "S") {
           anotherGrid[i][j] = "~";
         }
         // TODO: Print the game board with marks on any spaces that have been fired
@@ -62,14 +62,27 @@ class Board {
   }
 
   isValidMove(pos) {
-    for (let i = 0; i < this.numRos; i++) {
-      for (let j = 0; j < this.numCols; j++) {
-        return (this.grid[i][j] === "null" || this.grid[i][j] === "S");
-      }
+    const [row, col] = pos;
+    if (row == null || col == null) {
+      return false;
     }
-    // TODO: Take in an attack position (in the form of an array [row, col]) and
-    // return true if the position is a valid move.
+    const isPositionOutOfBounds =
+      row < 0 || row >= this.numRows || col < 0 || col >= this.numCols;
+    if (isPositionOutOfBounds) {
+      return false;
+    }
+    const isPreviouslyMadeMove =
+      this.grid[row][col] === "h" || this.grid[row][col] === "x";
+    if (isPreviouslyMadeMove) {
+      return false;
+    }
+
+
+    return true;
   }
+  // TODO: Take in an attack position (in the form of an array [row, col]) and
+  // return true if the position is a valid move.
+
 
   isGameOver() {
     return (this.count() === 0)

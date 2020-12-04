@@ -4,9 +4,7 @@ class BattleshipGame {
   constructor(player1, numRos, numCols, numShip) {
     this.player1 = player1
     this.currentPlayer = player1
-    this.numRos = numRos
-    this.numCols = numCols
-    this.numShip = numShip
+
     this.board = new Board(numRos, numCols, numShip)
     this.numberOfTurns = 0
     // TODO: Set up constructor to store reference to the humanPlayer and
@@ -18,7 +16,7 @@ class BattleshipGame {
     this.displayStatus()
     // getMove(processMove)
     // processMove
-    this.currentPlayer.getMove((pos)=>this.processMove(pos))
+    this.currentPlayer.getMove((pos) => this.processMove(pos))
     // TODO: Display the state of the game and ask for the users input.
   }
 
