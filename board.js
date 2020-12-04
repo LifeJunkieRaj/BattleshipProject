@@ -67,7 +67,7 @@ class Board {
       return false;
     }
     const isPositionOutOfBounds =
-      row < 0 || row >= this.numRows || col < 0 || col >= this.numCols;
+      row < 0 || row >= this.numRos || col < 0 || col >= this.numCols;
     if (isPositionOutOfBounds) {
       return false;
     }

@@ -26,10 +26,12 @@ class BattleshipGame {
   }
 
   processMove(position) {
+    console.clear();
     if (this.board.isValidMove(position)) {
       this.board.attack(position)
       this.numberOfTurns++
-      if (this.board.isGameOver) {
+      if (this.board.isGameOver()) {
+        this.displayStatus()
         this.currentPlayer.processGameOver(true, this.numberOfTurns)
       } else {
         this.playTurn()
