@@ -1,11 +1,10 @@
 
 const Board = require("./board.js")
 class BattleshipGame {
-  constructor(player1, numRos, numCols, numShip) {
+  constructor(player1, numRos, numCols, numShips) {
     this.player1 = player1
     this.currentPlayer = player1
-
-    this.board = new Board(numRos, numCols, numShip)
+    this.board = new Board(numRos, numCols, numShips)
     this.numberOfTurns = 0
     // TODO: Set up constructor to store reference to the humanPlayer and
     // instantiate a new instance of the Board class and set it to this.board.
@@ -21,14 +20,16 @@ class BattleshipGame {
   }
 
   displayStatus() {
+    console.log("\n*******************************");
+    console.log("'H' means you got lucky, 'X' means try again noob\n");
     this.board.display()
     // TODO: Display the current state of the game to the player.
   }
 
-  processMove(position) {
+  processMove(pos) {
     console.clear();
-    if (this.board.isValidMove(position)) {
-      this.board.attack(position)
+    if (this.board.isValidMove(pos)) {
+      this.board.attack(pos)
       this.numberOfTurns++
       if (this.board.isGameOver()) {
         this.displayStatus()
@@ -37,7 +38,7 @@ class BattleshipGame {
         this.playTurn()
       }
     } else {
-      console.log("Please play a valid position")
+      console.log("Honestly, why are you wasting our air? Try again!")
       this.playTurn()
     }
     // TODO: Detemerine if the move is valid. If so, invoke the attack method on

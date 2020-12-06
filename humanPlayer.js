@@ -10,7 +10,7 @@ class HumanPlayer {
   }
 
   getMove(processMove) {
-    this.rl.question("What is your move?", (answer) => {
+    this.rl.question("You can pick one, but I don't know why you'd even try:", (answer) => {
       const [row, col] = answer.split(', ');
       processMove([row, col]);
 
@@ -22,9 +22,9 @@ class HumanPlayer {
 
   processGameOver(isWon, turns) {
     if (isWon) {
-      console.log(`You have won this time in this many ${turns}!`)
+      console.log(`I can't believe it took you ${turns} turns to win... SMDH!`)
     } else {
-      console.log(`You is a loser; Try again.`)
+      console.log(`You SUCK!!! Try Again.`)
     }
     this.rl.close;
     // TODO: Display a different message depending on if the player won or lost

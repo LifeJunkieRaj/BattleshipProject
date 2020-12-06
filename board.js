@@ -1,104 +1,79 @@
+
 class Board {
-  constructor(numRos, numCols, numShips) {
-    this.numRos = numRos
+  constructor(numRows, numCols, numShips) {
+    this.numRows = numRows
     this.numCols = numCols
     this.numShips = numShips
-    this.grid = this.populateGrid()
-    // TODO: Set up constructor that sets the numRos, numCols, and numShips.
-    // TODO: Set this.grid equal to the return value of the instance method
-    // populateGrid().
+    this.grid = this.populateGrid();
   }
 
   populateGrid() {
-    let outerArr = [];
-    for (let i = 0; i < this.numRos; i++) {
-      let rowArr = [];
-      for (let j = 0; j < this.numCols; j++) {
-        rowArr.push(null)
-      }
-      outerArr.push(rowArr)
-    }
-    let k = 0;
-    while (k < this.numShips) {
-      let shipRow = Math.floor(Math.random() * this.numRos)
-      let shipCol = Math.floor(Math.random() * this.numCols)
-      if (outerArr[shipRow][shipCol] === null) {
-        outerArr[shipRow][shipCol] = "S"
-        k++
+    let startGrid = [];
+    for (let i = 0;i < this.numRows;i++) {
+      startGrid.push([]);
+      for (let j = 0;j < this.numCols;j++) {
+        startGrid[i].push('');
       }
     }
-    return outerArr;
-    // TODO: Using the instance variables numRows, numCols, and numShips, return
-    // a 2D array representing the state of the board.
+    let count = this.numShips
+   while (count > 0) {
+    let randRow = Math.floor(Math.random() * (this.numRows));
+    let randCol = Math.floor(Math.random() * (this.numCols));
+
+    if (startGrid[randRow][randCol] === ''){
+      startGrid[randRow][randCol] = 'S';
+      count--;
+    }
+   }
+   return startGrid
   }
 
   display() {
-    let anotherGrid = [...this.grid]
+    // TODO: Print the game board with marks on any spaces that have been fired
+    // upon. Be sure not to display the unhit ships to the user! Hint: you might
+    // be able to use console.table()
+    const displayGrid = this.grid.map((row) => {
+      return row.map((col) => (col === "S" || col === '' ? '' : col));
+    });
 
-    for (let i = 0; i < this.numRos; i++) {
-      for (let j = 0; j < this.numCols; j++) {
-        if (anotherGrid[i][j] === null || anotherGrid[i][j] === "S") {
-          anotherGrid[i][j] = "~";
-        }
-        // TODO: Print the game board with marks on any spaces that have been fired
-        // upon. Be sure not to display the unhit ships to the user! Hint: you might
-        // be able to use console.table()
-      }
-    }
-    console.table(anotherGrid);
+      console.table(displayGrid)
   }
 
   count() {
-    let validTarget = 0;
-    for (let i = 0; i < this.numRos; i++) {
-      for (let j = 0; j < this.numCols; j++) {
-        if (this.grid[i][j] === "S") {
-          validTarget++;
-        }
-      }
-    }
-
-    // TODO: Return the number of valid targets (ships) remaining.
+    return this.numShips
   }
 
   isValidMove(pos) {
-    const [row, col] = pos;
-    if (row == null || col == null) {
-      return false;
+    let attackPos = this.grid[pos[0]][pos[1]];
+    if (attackPos === '' || attackPos === 'S') {
+      return true
+    } else {
+      return false
     }
-    const isPositionOutOfBounds =
-      row < 0 || row >= this.numRos || col < 0 || col >= this.numCols;
-    if (isPositionOutOfBounds) {
-      return false;
-    }
-    const isPreviouslyMadeMove =
-      this.grid[row][col] === "h" || this.grid[row][col] === "x";
-    if (isPreviouslyMadeMove) {
-      return false;
-    }
-
-
-    return true;
   }
-  // TODO: Take in an attack position (in the form of an array [row, col]) and
-  // return true if the position is a valid move.
-
 
   isGameOver() {
-    return (this.count() === 0)
-    // TODO: Return true if the game is over (when all ships are hit).
+    if (this.numShips === 0) {
+      console.log('You might of Won now, but wait till SkyNet takes over pussy!!!');
+      return true
+    }
+      return false
   }
 
-  attack([row, col]) {
-    if (this.grid[row][col] === "S") {
-      this.grid[row][col] = "H";
-    } else {
-      this.grid[row][col] = "X";
+  attack(pos) {
+    let attackPos = this.grid[pos[0]][pos[1]];
+    if (this.isValidMove(pos)) {
+      if (attackPos === 'S') {
+        this.grid[pos[0]][pos[1]] = "H";
+        this.numShips--;
+      } else if (attackPos === '') {
+        this.grid[pos[0]][pos[1]] = "X";
+      }
     }
-    // TODO: Take in an attack position in the form of an array, [row, col], as
-    // a parameter. Update this.grid depending on if the position is an empty
-    // space or a damaged ship.
+
   }
+
 }
+
 
 module.exports = Board;
